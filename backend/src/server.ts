@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import type { Request, Response } from "express";
+import { connectDB } from "./config/db.ts";
 dotenv.config();
 
 const app = express();
@@ -12,6 +13,8 @@ app.get("/ping", (_: Request, res: Response) => {
   res.send("pong");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at: http://localhost:${PORT}`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running at: http://localhost:${PORT}`);
+  });
 });
