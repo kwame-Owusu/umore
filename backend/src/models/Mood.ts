@@ -1,5 +1,5 @@
 import { Schema, model, Document } from "mongoose";
-import { MoodType } from "./types.ts";
+import type { MoodType } from "./types.ts";
 
 // Interface for the mood document
 interface IMood extends Document {
