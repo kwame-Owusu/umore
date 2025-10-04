@@ -1,7 +1,7 @@
 import { Router } from "express";
-import register from "../auth/register.ts";
-import login from "../auth/login.ts";
-import deleteUser from "./deleteUser.ts";
+import register from "../../controllers/auth/register.ts";
+import login from "../../controllers/auth/login.ts";
+import deleteUser from "../../controllers/auth/deleteUser.ts";
 import authMiddleware from "../../middleware/authMiddleware.ts";
 
 const router = Router();
