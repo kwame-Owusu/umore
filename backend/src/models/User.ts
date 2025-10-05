@@ -7,12 +7,11 @@ export interface IUser extends Document {
   createdAt: Date;
 }
 
-const userSchema = new mongoose.Schema<IUser>({
+export const UserSchema = new mongoose.Schema<IUser>({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true }, //hashed
   createdAt: { type: Date, default: Date.now },
 });
 
-const User = mongoose.model<IUser>("User", userSchema);
-export default User;
+export const User = mongoose.model<IUser>("User", UserSchema);

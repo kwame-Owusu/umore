@@ -1,5 +1,7 @@
-import mongoose, { Connection, ConnectOptions } from "mongoose";
-import { MoodSchema } from "../models/Mood";
+import mongoose from "mongoose";
+import type { Connection } from "mongoose";
+import { MoodSchema } from "../models/Mood.ts";
+import { UserSchema } from "../models/User.ts";
 
 export class MongoConnection {
   private databaseConnectionUrl: string;
@@ -10,6 +12,7 @@ export class MongoConnection {
 
   async connect() {
     await mongoose.connect(this.databaseConnectionUrl);
+    console.log("[server]: MongoDB Database Connected");
   }
 
   async close() {
@@ -23,6 +26,7 @@ export class MongoConnection {
       })
       .asPromise();
   }
+
   async getMoodModel(databaseId = "Mood") {
     const connection = await this.getConnection(databaseId);
     return connection.model("Mood", MoodSchema, "Mood");
@@ -30,7 +34,7 @@ export class MongoConnection {
 
   async getUserModel(databaseId = "User") {
     const connection = await this.getConnection(databaseId);
-    return connection.model("Mood", MoodSchema, "Mood");
+    return connection.model("User", UserSchema, "User");
   }
 
   generateObjectId(id?: string) {
