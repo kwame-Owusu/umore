@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import User from "../../models/User.ts";
-import Mood from "../../models/Mood.ts";
+import { Mood } from "../../models/Mood.ts";
 import dotenv from "dotenv";
 dotenv.config();
 

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import Mood from "../../models/Mood.ts";
+import { Mood } from "../../models/Mood.ts";
 
 const getAllMoods = async (req: Request, res: Response) => {
   try {

@@ -9,12 +9,11 @@ interface IMood extends Document {
   date: Date;
 }
 
-const moodSchema = new Schema<IMood>({
+export const MoodSchema = new Schema<IMood>({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   mood: { type: String, required: true },
   note: { type: String },
   date: { type: Date, default: Date.now },
 });
 
-const Mood = model<IMood>("Mood", moodSchema);
-export default Mood;
+export const Mood = model<IMood>("Mood", MoodSchema);
