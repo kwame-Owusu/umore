@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { config } from "../models/types.ts";
 
 export interface UserPayload {
   id: string;
@@ -14,7 +15,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as UserPayload;
+    const decoded = jwt.verify(token, config.jwtSecret) as UserPayload;
     req.user = decoded;
     next();
   } catch (err) {

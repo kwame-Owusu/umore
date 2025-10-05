@@ -1,13 +1,11 @@
 import express from "express";
-import dotenv from "dotenv";
 import type { Request, Response } from "express";
 import { connectDB } from "./config/db.ts";
 import authRouter from "./routes/auth/router.ts";
 import moodRouter from "./routes/mood/router.ts";
-dotenv.config();
+import { config } from "./models/types.ts";
 
 const app = express();
-const PORT = process.env.PORT;
 
 app.use(express.json());
 
@@ -18,7 +16,7 @@ app.get("/ping", (_: Request, res: Response) => {
 });
 
 connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running at: http://localhost:${PORT}`);
+  app.listen(config.port, () => {
+    console.log(`Server running at: http://localhost:${config.port}`);
   });
 });
