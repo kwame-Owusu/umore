@@ -2,7 +2,7 @@ import { Schema, model, Document } from "mongoose";
 import type { MoodType } from "./types.ts";
 
 // Interface for the mood document
-interface IMood extends Document {
+export interface IMood extends Document {
   userId: Schema.Types.ObjectId;
   mood: MoodType;
   note?: string;

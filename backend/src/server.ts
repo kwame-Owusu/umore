@@ -1,6 +1,5 @@
 import express from "express";
 import type { Request, Response } from "express";
-import { connectDB } from "./config/db.ts";
 import authRouter from "./routes/auth/router.ts";
 import moodRouter from "./routes/mood/router.ts";
 import { config } from "./models/types.ts";
@@ -19,6 +18,6 @@ app.get("/ping", (_: Request, res: Response) => {
 
 database.connect().then(() => {
   app.listen(config.port, () => {
-    console.log(`Server running at: http://localhost:${config.port}`);
+    console.log(`[server] running at: http://localhost:${config.port}`);
   });
 });

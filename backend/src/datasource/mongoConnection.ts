@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import type { Connection } from "mongoose";
 import { MoodSchema } from "../models/Mood.ts";
 import { UserSchema } from "../models/User.ts";
 
@@ -19,22 +18,12 @@ export class MongoConnection {
     await mongoose.disconnect();
   }
 
-  async getConnection(databaseId: string): Promise<Connection> {
-    return mongoose.connection
-      .useDb(databaseId, {
-        useCache: true,
-      })
-      .asPromise();
+  async getMoodModel() {
+    return mongoose.model("Mood", MoodSchema, "moods");
   }
 
-  async getMoodModel(databaseId = "Mood") {
-    const connection = await this.getConnection(databaseId);
-    return connection.model("Mood", MoodSchema, "Mood");
-  }
-
-  async getUserModel(databaseId = "User") {
-    const connection = await this.getConnection(databaseId);
-    return connection.model("User", UserSchema, "User");
+  async getUserModel() {
+    return mongoose.model("User", UserSchema, "users");
   }
 
   generateObjectId(id?: string) {
