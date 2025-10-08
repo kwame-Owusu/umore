@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 :root {
+  font-family: "Urbanist", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -15,4 +16,76 @@
 
 @theme {
   --font-urbanist: "Urbanist", sans-serif;
+
+  /* === Mindful Brown === */
+  --color-brown-100: #1f160f;
+  --color-brown-90: #332419;
+  --color-brown-80: #4b3425;
+  --color-brown-70: #6b4b36;
+  --color-brown-60: #926247;
+  --color-brown-50: #ac835c;
+  --color-brown-40: #bd9a93;
+  --color-brown-30: #d5c2b9;
+  --color-brown-20: #ebddd9;
+  --color-gray-10: #f7f4f2;
+
+  /* === Optimistic Gray === */
+  --color-gray-100: #121619;
+  --color-gray-90: #21262a;
+  --color-gray-80: #343a3f;
+  --color-gray-70: #4d5558;
+  --color-gray-60: #697077;
+  --color-gray-50: #878e96;
+  --color-gray-40: #a2a9b0;
+  --color-gray-30: #c1c6cd;
+  --color-gray-20: #dde1e6;
+  --color-gray-10b: #f2f4f8;
+
+  /* === Serenity Green === */
+  --color-green-100: #191e10;
+  --color-green-90: #29321a;
+  --color-green-80: #3d4a26;
+  --color-green-70: #5a6838;
+  --color-green-60: #7d944d;
+  --color-green-50: #98b068;
+  --color-green-40: #b4c48d;
+  --color-green-30: #cfddb5;
+  --color-green-20: #e5ead7;
+  --color-green-10: #f3f5eb;
+
+  /* === Empathy Orange === */
+  --color-orange-100: #2f1200;
+  --color-orange-90: #4c1c00;
+  --color-orange-80: #702901;
+  --color-orange-70: #a23901;
+  --color-orange-60: #df4b01;
+  --color-orange-50: #f7631b;
+  --color-orange-40: #fe8148;
+  --color-orange-30: #fea8af;
+  --color-orange-20: #fdd2c2;
+  --color-orange-10: #fff0eb;
+
+  /* === Zen Yellow === */
+  --color-yellow-100: #2f2500;
+  --color-yellow-90: #4d3c00;
+  --color-yellow-80: #705600;
+  --color-yellow-70: #7a7300;
+  --color-yellow-60: #e0a500;
+  --color-yellow-50: #ffc65c;
+  --color-yellow-40: #fff5c5;
+  --color-yellow-30: #ffdb8f;
+  --color-yellow-20: #fff0c2;
+  --color-yellow-10: #fff4e0;
+
+  /* === Gentle Purple === */
+  --color-purple-100: #0d002e;
+  --color-purple-90: #1d004d;
+  --color-purple-80: #1c0070;
+  --color-purple-70: #210f93;
+  --color-purple-60: #3d16ca;
+  --color-purple-50: #5530e8;
+  --color-purple-40: #7152ff;
+  --color-purple-30: #a18fff;
+  --color-purple-20: #cbc2ff;
+  --color-purple-10: #edebff;
 }

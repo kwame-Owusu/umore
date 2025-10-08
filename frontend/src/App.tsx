@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "./lib/api";
+import { Route, Routes } from "react-router";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
-  const [ping, setPing] = useState<string>("");
+  const [, setPing] = useState<string>("");
 
   useEffect(() => {
     api
@@ -13,10 +17,11 @@ function App() {
 
   return (
     <>
-      <div className="flex-col  items-center justify-center mt-10 text-center">
-        <div className="text-3xl font-bold underline">hello umore</div>
-        <div className="mt-4">Server response: {ping || "Loading..."}</div>
-      </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
     </>
   );
 }
