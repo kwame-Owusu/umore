@@ -7,6 +7,7 @@ import {
   NavigationMenuList,
 } from "./ui/navigation-menu";
 import logo from "../assets/umore_logo.svg";
+import { Link } from "react-router";
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,14 +19,14 @@ function NavBar() {
   ];
 
   return (
-    <div className="bg-background border-b border-border w-full fixed top-0 left-0 z-50">
+    <div className="bg-background border-b border-border w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Top bar */}
         <div className="flex justify-between items-center py-3">
           {/* Logo */}
-          <a href="/" className="flex items-center space-x-2">
+          <Link to={"/"}>
             <img src={logo} alt="Umore Logo" className="h-10 w-auto md:h-12" />
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center space-x-8">
@@ -34,12 +35,12 @@ function NavBar() {
                 {navItems.map((item) => (
                   <NavigationMenuItem key={item.name}>
                     <NavigationMenuLink asChild>
-                      <a
-                        href={item.href}
+                      <Link
+                        to={item.href}
                         className="text-base lg:text-lg text-foreground hover:text-accent-foreground font-medium transition-colors"
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 ))}
@@ -74,14 +75,14 @@ function NavBar() {
         >
           <nav className="flex flex-col items-center bg-background border-t border-border py-3 space-y-3 rounded-b-2xl shadow-sm">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 onClick={() => setMenuOpen(false)}
                 className="text-base font-medium text-foreground hover:text-accent-foreground transition-colors"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
