@@ -18,3 +18,11 @@ export interface UpdateMoodRequest {
     mood?: MoodType;
     note?: string;
 }
+
+export const moodLabels: Record<MoodType, string> = {
+    happy: "Happy",
+    sad: "Sad",
+    angry: "Angry",
+    neutral: "Neutral",
+    excited: "Excited",
+};

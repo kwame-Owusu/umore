@@ -5,15 +5,8 @@ import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { ArrowLeft, Edit, Trash2 } from "lucide-react";
 import { moodAPI } from "../lib/api";
-import type { MoodDTO, MoodType } from "../types/mood";
-
-const moodLabels: Record<MoodType, string> = {
-  happy: "Happy",
-  sad: "Sad",
-  anxious: "Anxious",
-  neutral: "Neutral",
-  excited: "Excited",
-};
+import type { MoodDTO } from "../types/mood";
+import { moodLabels } from "../types/mood";
 
 function MoodDetail() {
   const { id } = useParams();
@@ -88,14 +81,28 @@ function MoodDetail() {
         <Card className="p-6">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h1 className="text-3xl font-semibold mb-2">{moodLabels[entry.mood]}</h1>
-              <p className="text-muted-foreground">{new Date(entry.date).toLocaleDateString()}</p>
+              <h1 className="text-3xl font-semibold mb-2">
+                {moodLabels[entry.mood]}
+              </h1>
+              <p className="text-muted-foreground">
+                {new Date(entry.date).toLocaleDateString()}
+              </p>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleEdit}>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleEdit}
+                className="opacity-80 cursor-pointer hover:opacity-100"
+              >
                 <Edit className="w-4 h-4" />
               </Button>
-              <Button variant="outline" size="sm" onClick={handleDelete}>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={handleDelete}
+                className="opacity-80, cursor-pointer hover:opacity-100"
+              >
                 <Trash2 className="w-4 h-4" />
               </Button>
             </div>

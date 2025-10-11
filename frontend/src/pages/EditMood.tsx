@@ -1,20 +1,18 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import NavBar from "../components/NavBar";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Textarea } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { moodAPI } from "../lib/api";
 import type { MoodType, UpdateMoodRequest } from "../types/mood";
-
-const moodLabels: Record<MoodType, string> = {
-  happy: "Happy",
-  sad: "Sad",
-  anxious: "Anxious",
-  neutral: "Neutral",
-  excited: "Excited",
-};
+import { moodLabels } from "../types/mood";
 
 function EditMood() {
   const { id } = useParams();
@@ -77,7 +75,9 @@ function EditMood() {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="mood">Mood</Label>
+                <Label htmlFor="mood" className="mb-1">
+                  Mood
+                </Label>
                 <select
                   id="mood"
                   value={mood}
@@ -92,20 +92,26 @@ function EditMood() {
                 </select>
               </div>
               <div>
-                <Label htmlFor="note">Note</Label>
+                <Label htmlFor="note" className="mb-1">
+                  Note
+                </Label>
                 <Textarea
                   id="note"
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   placeholder="Add a note about your day..."
-                  rows={4}
+                  rows={6}
                 />
               </div>
               <div className="flex gap-2">
                 <Button type="submit" disabled={saving}>
                   {saving ? "Saving..." : "Save Changes"}
                 </Button>
-                <Button type="button" variant="outline" onClick={() => navigate(-1)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => navigate(-1)}
+                >
                   Cancel
                 </Button>
               </div>

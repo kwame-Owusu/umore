@@ -12,14 +12,7 @@ import { Textarea } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { moodAPI } from "../lib/api";
 import type { MoodType } from "../types/mood";
-
-const moodLabels: Record<MoodType, string> = {
-  happy: "Happy",
-  sad: "Sad",
-  angry: "Angry",
-  neutral: "Neutral",
-  excited: "Excited",
-};
+import { moodLabels } from "../types/mood";
 
 function CreateMood() {
   const [searchParams] = useSearchParams();
@@ -63,13 +56,15 @@ function CreateMood() {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <Label htmlFor="note">Note (optional)</Label>
+                <Label htmlFor="note" className="mb-1">
+                  Note (optional)
+                </Label>
                 <Textarea
                   id="note"
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   placeholder="Add a note about your day..."
-                  rows={4}
+                  rows={6}
                 />
               </div>
               <div className="flex gap-2">
