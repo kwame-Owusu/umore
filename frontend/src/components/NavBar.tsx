@@ -19,7 +19,7 @@ function NavBar() {
   ];
 
   return (
-    <div className="bg-background border-b border-border w-full">
+    <div className="bg-background border-b border-border w-full fixed">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Top bar */}
         <div className="flex justify-between items-center py-3">
