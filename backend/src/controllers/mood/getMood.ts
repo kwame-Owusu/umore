@@ -16,10 +16,10 @@ const getMood = async (req: Request, res: Response) => {
     const mood = await moodDatasource.getMoodById(moodId);
 
     if (!mood) {
-      return res.status(204).json({ message: "Mood entry not found" });
+      return res.status(404).json({ message: "Mood entry not found" });
     }
 
-    res.status(200).json({ data: mood });
+    res.status(200).json(mood);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: `Error getting mood entry, ${err}` });

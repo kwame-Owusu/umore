@@ -21,10 +21,10 @@ const getAllMoods = async (req: Request, res: Response) => {
     });
 
     if (!moods.length) {
-      return res.status(204).json({ message: "No moods found" });
+      return res.status(204).json([]);
     }
 
-    res.status(200).json({ data: moods });
+    res.status(200).json(moods);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: `Error fetching moods: ${err}` });

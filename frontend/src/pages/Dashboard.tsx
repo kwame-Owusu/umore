@@ -1,35 +1,64 @@
+import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Smile, Frown, Meh, Angry } from "lucide-react";
+import { Smile, Frown, Meh, Zap } from "lucide-react";
+import { useNavigate } from "react-router";
+import { moodAPI } from "../lib/api";
+import type { MoodDTO, MoodType } from "../types/mood";
 
-const moods = [
-  { label: "Happy", icon: <Smile className="size-5" />, color: "bg-green-20" },
-  { label: "Sad", icon: <Frown className="size-5" />, color: "bg-purple-20" },
+const moodLabels: Record<MoodType, string> = {
+  happy: "Happy",
+  sad: "Sad",
+  anxious: "Anxious",
+  neutral: "Neutral",
+  excited: "Excited",
+};
+
+const moods: { label: string; icon: React.JSX.Element; color: string; type: MoodType }[] = [
+  { label: "Happy", icon: <Smile className="size-5" />, color: "bg-green-20", type: "happy" },
+  { label: "Sad", icon: <Frown className="size-5" />, color: "bg-purple-20", type: "sad" },
   {
     label: "Neutral",
     icon: <Meh className="size-5" />,
     color: "bg-yellow-10",
+    type: "neutral",
   },
   {
-    label: "Angry",
-    icon: <Angry className="size-5" />,
+    label: "Anxious",
+    icon: <Zap className="size-5" />,
     color: "bg-orange-10",
+    type: "anxious",
   },
 ];
 
-const recentEntries = [
-  {
-    id: 1,
-    mood: "Happy",
-    date: "June 15, 2024",
-    note: "Had a relaxing day 🌿",
-  },
-  { id: 2, mood: "Sad", date: "June 14, 2024", note: "Felt a bit overwhelmed" },
-  { id: 3, mood: "Neutral", date: "June 13, 2024", note: "Pretty normal day" },
-];
+function Dashboard() {
+  const navigate = useNavigate();
+  const [recentEntries, setRecentEntries] = useState<MoodDTO[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default function Dashboard() {
+  const fetchMoods = async () => {
+    try {
+      const response = await moodAPI.getAll();
+      setRecentEntries(response.data);
+    } catch (error) {
+      console.error("Failed to fetch moods:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMoods();
+  }, []);
+
+  useEffect(() => {
+    const handleFocus = () => {
+      fetchMoods();
+    };
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, []);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <NavBar />
@@ -56,7 +85,8 @@ export default function Dashboard() {
               <Button
                 key={mood.label}
                 variant="ghost"
-                className={`rounded-full w-14 h-14 hover:bg-muted transition ${mood.color}`}
+                className={`rounded-full w-14 h-14 hover:bg-muted transition ${mood.color} cursor-pointer`}
+                onClick={() => navigate(`/create-mood?type=${mood.type}`)}
               >
                 {mood.icon}
               </Button>
@@ -68,24 +98,31 @@ export default function Dashboard() {
         <section>
           <h2 className="text-lg font-semibold mb-3">Recent Entries</h2>
           <div className="space-y-3">
-            {recentEntries.map((entry) => (
-              <Card
-                key={entry.id}
-                className="hover:shadow-md transition-all cursor-pointer"
-              >
-                <CardContent className="flex justify-between items-center p-4">
-                  <div>
-                    <h3 className="font-medium">{entry.mood}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {entry.date}
+            {loading ? (
+              <p>Loading...</p>
+            ) : recentEntries.length === 0 ? (
+              <p>No moods yet. Start by logging your mood!</p>
+            ) : (
+              recentEntries.map((entry) => (
+                <Card
+                  key={entry._id}
+                  onClick={() => navigate(`/mood/${entry._id}`)}
+                  className="hover:shadow-md transition-all cursor-pointer"
+                >
+                  <CardContent className="flex justify-between items-center p-4">
+                    <div>
+                      <h3 className="font-medium">{moodLabels[entry.mood]}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {new Date(entry.date).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <p className="text-sm text-muted-foreground truncate max-w-[150px]">
+                      {entry.note || "No note"}
                     </p>
-                  </div>
-                  <p className="text-sm text-muted-foreground truncate max-w-[150px]">
-                    {entry.note}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         </section>
 
@@ -101,3 +138,4 @@ export default function Dashboard() {
     </div>
   );
 }
+export default Dashboard;

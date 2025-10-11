@@ -38,6 +38,9 @@ export const moodAPI = {
     getAll: () =>
         api.get<MoodDTO[]>("moods"),
 
+    getById: (id: string) =>
+        api.get<MoodDTO>(`moods/${id}`),
+
     update: (id: string, mood: UpdateMoodRequest) =>
         api.put<MoodDTO>(`moods/${id}`, mood),
 
