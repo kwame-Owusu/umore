@@ -14,6 +14,7 @@ import {
 import { Alert, AlertDescription } from "../components/ui/alert";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { isAxiosError } from "axios";
+import logo from "../assets/umore_logo.svg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -61,8 +62,8 @@ const Login = () => {
         <CardHeader className="text-center space-y-2">
           {/* Logo */}
           <div className="flex justify-center mb-2">
-            <div className="w-10 h-10 bg-accent rounded-full grid place-items-center">
-              <div className="w-5 h-5 bg-secondary rounded-full" />
+            <div className="size-12">
+              <img src={logo} alt="logo" />
             </div>
           </div>
 
