@@ -57,11 +57,11 @@ function CreateMood() {
         <Card>
           <CardHeader>
             <CardTitle>
-              How are you feeling {moodLabels[moodType].toLowerCase()}?
+              Why are you feeling {moodLabels[moodType].toLowerCase()}?
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <Label htmlFor="note">Note (optional)</Label>
                 <Textarea
