@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export type MoodType = "happy" | "sad" | "anxious" | "neutral" | "excited";
+export type MoodType = "happy" | "sad" | "angry" | "neutral" | "excited";
 
 export type Config = {
   port: string;

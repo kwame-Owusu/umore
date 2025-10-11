@@ -1,4 +1,4 @@
-export type MoodType = "happy" | "sad" | "anxious" | "neutral" | "excited";
+export type MoodType = "happy" | "sad" | "angry" | "neutral" | "excited";
 
 // DTO (Data Transfer Object) - what the API sends/receives
 export interface MoodDTO {

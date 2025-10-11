@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Smile, Frown, Meh, Zap } from "lucide-react";
+import { Smile, Frown, Meh, Zap, Angry } from "lucide-react";
 import { useNavigate } from "react-router";
 import { moodAPI } from "../lib/api";
 import type { MoodDTO, MoodType } from "../types/mood";
@@ -10,7 +10,7 @@ import type { MoodDTO, MoodType } from "../types/mood";
 const moodLabels: Record<MoodType, string> = {
   happy: "Happy",
   sad: "Sad",
-  anxious: "Anxious",
+  angry: "Angry",
   neutral: "Neutral",
   excited: "Excited",
 };
@@ -32,6 +32,12 @@ const moods: {
     icon: <Frown className="size-5" />,
     color: "bg-purple-20",
     type: "sad",
+  },
+  {
+    label: "Angry",
+    icon: <Angry className="size-5" />,
+    color: "bg-orange-20",
+    type: "angry",
   },
   {
     label: "Neutral",

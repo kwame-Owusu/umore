@@ -13,6 +13,7 @@ app.use(express.json());
 console.log(config.clientUrl)
 app.use(cors({
   origin: config.clientUrl,
+  credentials: true
 }))
 
 app.use("/api/auth", authRouter);
