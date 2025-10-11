@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "../components/ui/card";
 import { Alert, AlertDescription } from "../components/ui/alert";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 import { isAxiosError } from "axios";
 import logo from "../assets/umore_logo.svg";
 
@@ -130,6 +130,7 @@ const Login = () => {
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {loading ? "Signing In..." : "Sign In"}
+              <LogIn className="h-4 w-4" />
             </Button>
 
             <p className="text-center text-base text-muted-foreground">

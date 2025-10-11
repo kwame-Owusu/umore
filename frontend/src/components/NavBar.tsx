@@ -1,22 +1,17 @@
 import { useState } from "react";
-import { Settings, Menu, X } from "lucide-react";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "./ui/navigation-menu";
+import { LogOut, Menu, X } from "lucide-react";
+import { Button } from "./ui/button";
 import logo from "../assets/umore_logo.svg";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const navItems = [
-    { name: "Today", href: "/today" },
-    { name: "Past Entries", href: "/past-entries" },
-    { name: "Insights", href: "/insights" },
-  ];
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <div className="bg-background border-b border-border w-full fixed">
@@ -25,34 +20,24 @@ function NavBar() {
         <div className="flex justify-between items-center py-3">
           {/* Logo */}
           <Link to={"/"}>
-            <img src={logo} alt="Umore Logo" className="h-10 w-auto md:h-12" />
+            <img src={logo} alt="Umore Logo" className="size-12 md:h-12" />
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center space-x-8">
-            <NavigationMenu>
-              <NavigationMenuList className="flex space-x-8">
-                {navItems.map((item) => (
-                  <NavigationMenuItem key={item.name}>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        to={item.href}
-                        className="text-base lg:text-lg text-foreground hover:text-accent-foreground font-medium transition-colors"
-                      >
-                        {item.name}
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
-
-            <Settings className="h-6 w-6 text-foreground hover:text-accent-foreground cursor-pointer transition-colors" />
+          <div className="hidden md:flex items-center">
+            <Button
+              onClick={handleSignOut}
+              variant="outline"
+              size="sm"
+              className="cursor-pointer"
+            >
+              Sign Out
+              <LogOut className="h-4 w-4" />
+            </Button>
           </div>
 
           {/* Mobile menu toggle */}
-          <div className="md:hidden flex items-center space-x-4">
-            <Settings className="h-5 w-5 text-foreground hover:text-accent-foreground cursor-pointer transition-colors" />
+          <div className="md:hidden flex items-center">
             {menuOpen ? (
               <X
                 className="h-6 w-6 text-foreground cursor-pointer"
@@ -74,16 +59,10 @@ function NavBar() {
           }`}
         >
           <nav className="flex flex-col items-center bg-background border-t border-border py-3 space-y-3 rounded-b-2xl shadow-sm">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                onClick={() => setMenuOpen(false)}
-                className="text-base font-medium text-foreground hover:text-accent-foreground transition-colors"
-              >
-                {item.name}
-              </Link>
-            ))}
+            <Button onClick={handleSignOut} variant="outline" size="sm">
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </Button>
           </nav>
         </div>
       </div>
