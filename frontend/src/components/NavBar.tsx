@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { LogOut, Menu, X } from "lucide-react";
-import { Button } from "./ui/button";
-import logo from "../assets/umore_logo.svg";
-import { Link, useNavigate } from "react-router";
+ import { useState } from "react";
+ import { LogOut, Menu, X, Settings } from "lucide-react";
+ import { Button } from "./ui/button";
+ import SettingsModal from "./SettingsModal";
+ import logo from "../assets/umore_logo.svg";
+ import { Link, useNavigate } from "react-router";
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSignOut = () => {
@@ -23,18 +25,22 @@ function NavBar() {
             <img src={logo} alt="Umore Logo" className="size-12 md:h-12" />
           </Link>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center">
-            <Button
-              onClick={handleSignOut}
-              variant="outline"
-              size="sm"
-              className="cursor-pointer"
-            >
-              Sign Out
-              <LogOut className="h-4 w-4" />
-            </Button>
-          </div>
+           {/* Desktop nav */}
+           <div className="hidden md:flex items-center space-x-4">
+             <Settings
+               className="h-6 w-6 text-foreground hover:text-accent-foreground cursor-pointer transition-colors"
+               onClick={() => setSettingsOpen(true)}
+             />
+             <Button
+               onClick={handleSignOut}
+               variant="outline"
+               size="sm"
+               className="cursor-pointer"
+             >
+               Sign Out
+               <LogOut className="h-4 w-4" />
+             </Button>
+           </div>
 
           {/* Mobile menu toggle */}
           <div className="md:hidden flex items-center">
@@ -58,14 +64,23 @@ function NavBar() {
             menuOpen ? "max-h-48 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
-          <nav className="flex flex-col items-center bg-background border-t border-border py-3 space-y-3 rounded-b-2xl shadow-sm">
-            <Button onClick={handleSignOut} variant="outline" size="sm">
-              <LogOut className="h-4 w-4" />
-              Sign Out
-            </Button>
-          </nav>
+           <nav className="flex flex-col items-center bg-background border-t border-border py-3 space-y-3 rounded-b-2xl shadow-sm">
+             <Button
+               onClick={() => setSettingsOpen(true)}
+               variant="ghost"
+               size="sm"
+             >
+               <Settings className="h-4 w-4" />
+               Settings
+             </Button>
+             <Button onClick={handleSignOut} variant="outline" size="sm">
+               <LogOut className="h-4 w-4" />
+               Sign Out
+             </Button>
+           </nav>
         </div>
       </div>
+      <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
     </div>
   );
 }
