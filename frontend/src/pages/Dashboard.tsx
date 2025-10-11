@@ -15,9 +15,24 @@ const moodLabels: Record<MoodType, string> = {
   excited: "Excited",
 };
 
-const moods: { label: string; icon: React.JSX.Element; color: string; type: MoodType }[] = [
-  { label: "Happy", icon: <Smile className="size-5" />, color: "bg-green-20", type: "happy" },
-  { label: "Sad", icon: <Frown className="size-5" />, color: "bg-purple-20", type: "sad" },
+const moods: {
+  label: string;
+  icon: React.JSX.Element;
+  color: string;
+  type: MoodType;
+}[] = [
+  {
+    label: "Happy",
+    icon: <Smile className="size-5" />,
+    color: "bg-green-20",
+    type: "happy",
+  },
+  {
+    label: "Sad",
+    icon: <Frown className="size-5" />,
+    color: "bg-purple-20",
+    type: "sad",
+  },
   {
     label: "Neutral",
     icon: <Meh className="size-5" />,
@@ -25,10 +40,10 @@ const moods: { label: string; icon: React.JSX.Element; color: string; type: Mood
     type: "neutral",
   },
   {
-    label: "Anxious",
+    label: "Excited",
     icon: <Zap className="size-5" />,
     color: "bg-orange-10",
-    type: "anxious",
+    type: "excited",
   },
 ];
 
@@ -36,11 +51,22 @@ function Dashboard() {
   const navigate = useNavigate();
   const [recentEntries, setRecentEntries] = useState<MoodDTO[]>([]);
   const [loading, setLoading] = useState(true);
+  const [weeklyCount, setWeeklyCount] = useState(0);
 
   const fetchMoods = async () => {
     try {
       const response = await moodAPI.getAll();
       setRecentEntries(response.data);
+
+      // Calculate weekly count
+      const now = new Date();
+      const startOfWeek = new Date(now);
+      startOfWeek.setDate(now.getDate() - now.getDay() + 1); // Monday
+      startOfWeek.setHours(0, 0, 0, 0);
+      const weeklyMoods = response.data.filter(
+        (mood) => new Date(mood.date) >= startOfWeek
+      );
+      setWeeklyCount(weeklyMoods.length);
     } catch (error) {
       console.error("Failed to fetch moods:", error);
     } finally {
@@ -56,8 +82,8 @@ function Dashboard() {
     const handleFocus = () => {
       fetchMoods();
     };
-    window.addEventListener('focus', handleFocus);
-    return () => window.removeEventListener('focus', handleFocus);
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
   }, []);
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -130,8 +156,11 @@ function Dashboard() {
         <Card className="p-6 text-center">
           <h2 className="font-semibold mb-2">Weekly Insight</h2>
           <p className="text-sm text-muted-foreground">
-            You logged <strong>5 moods</strong> this week. Keep up your
-            reflection habit 🌞
+            You logged{" "}
+            <strong>
+              {weeklyCount} mood{weeklyCount !== 1 ? "s" : ""}
+            </strong>{" "}
+            this week. Keep up your reflection habit 🌞
           </p>
         </Card>
       </main>
