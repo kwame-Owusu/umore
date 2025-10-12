@@ -13,7 +13,7 @@ function MoodDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [entry, setEntry] = useState<MoodDTO | null>(null);
-  const [quote, setQuote] = useState({ q: "", a: "" });
+  const [quote, setQuote] = useState<{ q: string; a: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,17 +34,17 @@ function MoodDetail() {
   }, [id]);
 
   useEffect(() => {
-    const fetchQuotes = async () => {
+    const fetchDailyQuote = async () => {
       try {
         const quotesResponse = await quotesAPI.getDailyQuote();
-        console.log(quotesResponse);
-        setQuote(quotesResponse.data);
+        console.log(quotesResponse.data);
+        // ZenQuotes returns an array with one quote
+        setQuote(quotesResponse.data[0]);
       } catch (error) {
-        console.error("Failed to fetch quotes:", error);
+        console.error("Failed to fetch daily quote:", error);
       }
     };
-
-    fetchQuotes();
+    fetchDailyQuote();
   }, []);
 
   if (loading) {
@@ -135,7 +135,7 @@ function MoodDetail() {
             )}
           </CardContent>
         </Card>
-        <ZenQuote quote={quote?.q} author={quote?.a} />
+        {quote && <ZenQuote quote={quote?.q} author={quote?.a} />}
       </main>
     </div>
   );
