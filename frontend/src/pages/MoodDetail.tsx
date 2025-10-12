@@ -4,14 +4,16 @@ import NavBar from "../components/NavBar";
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { ArrowLeft, Edit, Trash2 } from "lucide-react";
-import { moodAPI } from "../lib/api";
+import { moodAPI, quotesAPI } from "../lib/api";
 import type { MoodDTO } from "../types/mood";
 import { moodLabels } from "../types/mood";
+import ZenQuote from "../components/ZenQuote";
 
 function MoodDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [entry, setEntry] = useState<MoodDTO | null>(null);
+  const [quote, setQuote] = useState({ q: "", a: "" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,6 +32,20 @@ function MoodDetail() {
     };
     fetchMood();
   }, [id]);
+
+  useEffect(() => {
+    const fetchQuotes = async () => {
+      try {
+        const quotesResponse = await quotesAPI.getDailyQuote();
+        console.log(quotesResponse);
+        setQuote(quotesResponse.data);
+      } catch (error) {
+        console.error("Failed to fetch quotes:", error);
+      }
+    };
+
+    fetchQuotes();
+  }, []);
 
   if (loading) {
     return (
@@ -119,6 +135,7 @@ function MoodDetail() {
             )}
           </CardContent>
         </Card>
+        <ZenQuote quote={quote?.q} author={quote?.a} />
       </main>
     </div>
   );

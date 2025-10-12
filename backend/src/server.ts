@@ -2,6 +2,7 @@ import express from "express";
 import type { Request, Response } from "express";
 import authRouter from "./routes/auth/router.ts";
 import moodRouter from "./routes/mood/router.ts";
+import quotesRouter from "./routes/quotes/router.ts"
 import { config } from "./models/types.ts";
 import { database } from "./datasource/db.ts";
 import cors from "cors"
@@ -17,6 +18,7 @@ app.use(cors({
 
 app.use("/api/auth", authRouter);
 app.use("/api/moods", moodRouter);
+app.use("/api/quotes", quotesRouter)
 app.get("/api/ping", (_: Request, res: Response) => {
   res.send("pong");
 });

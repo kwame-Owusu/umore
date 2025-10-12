@@ -97,7 +97,9 @@ const Register = () => {
             </div>
           </div>
 
-          <CardTitle className="text-4xl">Create Account.</CardTitle>
+          <CardTitle className="text-4xl text-brown-80">
+            Create Account.
+          </CardTitle>
           <CardDescription className="text-lg">
             Join us and start tracking your mood journey today.
           </CardDescription>

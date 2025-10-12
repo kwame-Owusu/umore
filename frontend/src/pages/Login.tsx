@@ -67,7 +67,9 @@ const Login = () => {
             </div>
           </div>
 
-          <CardTitle className="text-4xl">Welcome Back.</CardTitle>
+          <CardTitle className="text-4xl text-brown-80">
+            Welcome Back.
+          </CardTitle>
           <CardDescription className="text-lg">
             Let's sign in to your account and get started.
           </CardDescription>

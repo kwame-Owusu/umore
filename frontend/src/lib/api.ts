@@ -49,4 +49,11 @@ export const moodAPI = {
         api.delete<void>(`moods/${id}`),
 };
 
+
+// fetch quotes
+export const quotesAPI = {
+    getDailyQuote: () => api.get("quotes/daily"),
+};
+
+
 export default api;
