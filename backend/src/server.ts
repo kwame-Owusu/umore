@@ -3,11 +3,10 @@ import type { Request, Response } from "express";
 import authRouter from "./routes/auth/router.ts";
 import moodRouter from "./routes/mood/router.ts";
 import { config } from "./models/types.ts";
-import { MongoConnection } from "./datasource/mongoConnection.ts";
+import { database } from "./datasource/db.ts";
 import cors from "cors"
 
 const app = express();
-const database = new MongoConnection(config.mongoConnectionUrl)
 
 app.use(express.json());
 console.log(config.clientUrl)

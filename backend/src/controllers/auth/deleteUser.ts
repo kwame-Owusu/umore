@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
-import { MongoConnection } from "../../datasource/mongoConnection.ts";
 import { UserDatasource } from "../../datasource/userDatasource.ts";
-import { config } from "../../models/types.ts";
+import { database } from "../../datasource/db.ts";
 
 const deleteUser = async (req: Request, res: Response) => {
   try {
@@ -10,8 +9,7 @@ const deleteUser = async (req: Request, res: Response) => {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const mongo = new MongoConnection(config.mongoConnectionUrl);
-    const userDatasource = new UserDatasource(mongo);
+    const userDatasource = new UserDatasource(database);
 
     const deleted = await userDatasource.deleteUser(userId);
 

@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
-import { MongoConnection } from "../../datasource/mongoConnection.ts";
 import { MoodDatasource } from "../../datasource/moodDatasource.ts";
-import { config } from "../../models/types.ts";
+import { database } from "../../datasource/db.ts";
 
 const updateMood = async (req: Request, res: Response) => {
   try {
@@ -11,8 +10,7 @@ const updateMood = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Mood ID is required" });
     }
 
-    const mongo = new MongoConnection(config.mongoConnectionUrl);
-    const moodDatasource = new MoodDatasource(mongo);
+    const moodDatasource = new MoodDatasource(database);
     const updatedMood = await moodDatasource.updateMood(moodId, { mood, note });
 
     if (!updatedMood) {

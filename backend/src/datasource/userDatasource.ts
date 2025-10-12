@@ -70,6 +70,12 @@ export class UserDatasource {
             userName: user.username,
         };
     }
+
+    async userExists(username: string, email: string) {
+        const userModel = await this.database.getUserModel();
+        const userFound = await userModel.exists({ $or: [{ username }, { email }] })
+        return !!userFound
+    }
 }
 
 

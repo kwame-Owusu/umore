@@ -14,6 +14,12 @@ import {
 import { Alert, AlertDescription } from "../components/ui/alert";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { isAxiosError } from "axios";
+import {
+  validateEmail,
+  validatePassword,
+  getPasswordStrength,
+  type GetPasswordStrength,
+} from "../lib/validation";
 import logo from "../assets/umore_logo.svg";
 
 const Register = () => {
@@ -24,6 +30,9 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState<GetPasswordStrength>(
+    { level: "", color: "" }
+  );
 
   const navigate = useNavigate();
 
@@ -31,13 +40,20 @@ const Register = () => {
     e.preventDefault();
     setError("");
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+    const emailError = validateEmail(email);
+    if (emailError) {
+      setError(emailError);
       return;
     }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+    const passwordError = validatePassword(password, true);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
 
@@ -56,8 +72,11 @@ const Register = () => {
     } catch (err: unknown) {
       if (isAxiosError(err)) {
         setError(
-          err.response?.data?.error || "Login failed. Please try again."
+          err.response?.data?.error || "Login failed. Please check credentials."
         );
+        if (err.response?.status === 409) {
+          setError(err.response?.data?.error || "User already exists");
+        }
       } else if (err instanceof Error) {
         setError(err.message || "Login failed. Please try again.");
       } else {
@@ -129,7 +148,10 @@ const Register = () => {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setPasswordStrength(getPasswordStrength(e.target.value));
+                  }}
                   placeholder="••••••••••••"
                   required
                   minLength={6}
@@ -147,6 +169,11 @@ const Register = () => {
                   )}
                 </button>
               </div>
+              {password && (
+                <p className={`text-sm ${passwordStrength.color}`}>
+                  Password strength: {passwordStrength.level}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">

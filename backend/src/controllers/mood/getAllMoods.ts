@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
-import { MongoConnection } from "../../datasource/mongoConnection.ts";
 import { MoodDatasource } from "../../datasource/moodDatasource.ts";
-import { config } from "../../models/types.ts";
+import { database } from "../../datasource/db.ts";
 
 const getAllMoods = async (req: Request, res: Response) => {
   try {
@@ -12,8 +11,7 @@ const getAllMoods = async (req: Request, res: Response) => {
 
     const { date, mood } = req.query;
 
-    const mongo = new MongoConnection(config.mongoConnectionUrl);
-    const moodDatasource = new MoodDatasource(mongo);
+    const moodDatasource = new MoodDatasource(database);
     const moods = await moodDatasource.getAllMoods({
       userId,
       date: date as string,

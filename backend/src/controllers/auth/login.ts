@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
-import { config } from "../../models/types.ts";
-import { MongoConnection } from "../../datasource/mongoConnection.ts";
 import { UserDatasource } from "../../datasource/userDatasource.ts";
+import { database } from "../../datasource/db.ts";
 
 
 const login = async (req: Request, res: Response) => {
@@ -12,8 +11,7 @@ const login = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Email and password required" });
     }
 
-    const mongo = new MongoConnection(config.mongoConnectionUrl);
-    const userDatasource = new UserDatasource(mongo);
+    const userDatasource = new UserDatasource(database);
 
     const result = await userDatasource.login(email, password);
 

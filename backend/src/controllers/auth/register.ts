@@ -1,17 +1,19 @@
 import type { Request, Response } from "express";
-import { MongoConnection } from "../../datasource/mongoConnection.ts";
 import { UserDatasource } from "../../datasource/userDatasource.ts";
-import { config } from "../../models/types.ts";
+import { database } from "../../datasource/db.ts";
 
 const register = async (req: Request, res: Response) => {
   try {
     const { email, username, password } = req.body;
+    const userDatasource = new UserDatasource(database);
+
     if (!email || !username || !password) {
       return res.status(400).json({ error: "All fields are required" });
     }
+    if (await userDatasource.userExists(username, email)) {
+      return res.status(409).json({ error: "User already exists" });
+    }
 
-    const mongo = new MongoConnection(config.mongoConnectionUrl);
-    const userDatasource = new UserDatasource(mongo);
 
     const result = await userDatasource.register({
       userEmail: email,
