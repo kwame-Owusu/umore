@@ -153,6 +153,7 @@ function Dashboard() {
                 variant="ghost"
                 className={`rounded-full w-14 h-14 hover:bg-muted transition ${mood.color} cursor-pointer`}
                 onClick={() => navigate(`/create-mood?type=${mood.type}`)}
+                aria-label={`Log ${mood.label.toLowerCase()} mood`}
               >
                 {mood.icon}
               </Button>
@@ -220,7 +221,8 @@ function Dashboard() {
                 <Card
                   key={entry._id}
                   onClick={() => navigate(`/mood/${entry._id}`)}
-                  className="hover:shadow-md transition-all cursor-pointer"
+                  className="hover:shadow-md transition-all cursor-pointer animate-fade-in"
+                  aria-label={`View mood entry for ${moodLabels[entry.mood]} on ${new Date(entry.date).toLocaleDateString()}`}
                 >
                   <CardContent className="flex justify-between items-center p-4">
                     <div>
