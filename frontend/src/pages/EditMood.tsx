@@ -100,7 +100,8 @@ function EditMood() {
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   placeholder="Add a note about your day..."
-                  rows={6}
+                  rows={4}
+                  className="resize-y text-base" // text-base ensures normal text size
                 />
               </div>
               <div className="flex gap-2">

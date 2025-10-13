@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
 import { Smile, Frown, Meh, Zap, Angry } from "lucide-react";
 import { useNavigate } from "react-router";
-import { moodAPI } from "../lib/api";
+import { moodAPI, quotesAPI } from "../lib/api";
 import type { MoodDTO, MoodType } from "../types/mood";
+import ZenQuote from "../components/ZenQuote";
 
 const moodLabels: Record<MoodType, string> = {
   happy: "Happy",
@@ -58,6 +61,12 @@ function Dashboard() {
   const [recentEntries, setRecentEntries] = useState<MoodDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [weeklyCount, setWeeklyCount] = useState(0);
+  const [quote, setQuote] = useState<{ quote: string; author: string } | null>(
+    null
+  );
+  const [selectedMood, setSelectedMood] = useState<string>("all");
+  const [dateFrom, setDateFrom] = useState<string>("");
+  const [dateTo, setDateTo] = useState<string>("");
 
   const fetchMoods = async () => {
     try {
@@ -80,8 +89,30 @@ function Dashboard() {
     }
   };
 
+  const filteredEntries = recentEntries.filter((entry) => {
+    const matchesMood = selectedMood === "all" || entry.mood === selectedMood;
+    const entryDate = new Date(entry.date);
+    const matchesDate =
+      (!dateFrom || entryDate >= new Date(dateFrom)) &&
+      (!dateTo || entryDate <= new Date(dateTo));
+    return matchesMood && matchesDate;
+  });
+
   useEffect(() => {
     fetchMoods();
+  }, []);
+
+  useEffect(() => {
+    const fetchQuote = async () => {
+      try {
+        const response = await quotesAPI.getDailyQuote();
+        const data = response.data[0];
+        setQuote({ quote: data.q, author: data.a });
+      } catch (error) {
+        console.error("Failed to fetch quote:", error);
+      }
+    };
+    fetchQuote();
   }, []);
 
   useEffect(() => {
@@ -107,6 +138,9 @@ function Dashboard() {
           </p>
         </section>
 
+        {/* Daily Quote */}
+        {quote && <ZenQuote quote={quote.quote} author={quote.author} />}
+
         {/* Today's Mood Section */}
         <Card className="p-6 text-center">
           <h2 className="text-xl font-semibold mb-3">
@@ -126,16 +160,63 @@ function Dashboard() {
           </div>
         </Card>
 
+        {/* Filters */}
+        <Card className="p-4">
+          <h3 className="text-lg font-medium mb-3">Filter Entries</h3>
+          <div className="flex gap-4 flex-wrap">
+            <div className="flex-1 min-w-[150px]">
+              <Label htmlFor="mood-filter" className="mb-1 block">
+                Mood
+              </Label>
+              <select
+                id="mood-filter"
+                value={selectedMood}
+                onChange={(e) => setSelectedMood(e.target.value)}
+                className="w-full p-2 border rounded"
+              >
+                <option value="all">All Moods</option>
+                {Object.entries(moodLabels).map(([key, label]) => (
+                  <option key={key} value={key}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex-1 min-w-[150px]">
+              <Label htmlFor="date-from" className="mb-1 block">
+                From Date
+              </Label>
+              <Input
+                id="date-from"
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+              />
+            </div>
+            <div className="flex-1 min-w-[150px]">
+              <Label htmlFor="date-to" className="mb-1 block">
+                To Date
+              </Label>
+              <Input
+                id="date-to"
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+              />
+            </div>
+          </div>
+        </Card>
+
         {/* Recent Entries */}
         <section>
           <h2 className="text-lg font-semibold mb-3">Recent Entries</h2>
           <div className="space-y-3">
             {loading ? (
               <p>Loading...</p>
-            ) : recentEntries.length === 0 ? (
-              <p>No moods yet. Start by logging your mood!</p>
+            ) : filteredEntries.length === 0 ? (
+              <p>No entries match the current filters.</p>
             ) : (
-              recentEntries.map((entry) => (
+              filteredEntries.map((entry) => (
                 <Card
                   key={entry._id}
                   onClick={() => navigate(`/mood/${entry._id}`)}
