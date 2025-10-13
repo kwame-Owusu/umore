@@ -97,7 +97,7 @@ const Register = () => {
             </div>
           </div>
 
-          <CardTitle className="text-4xl text-brown-80">
+          <CardTitle className="text-4xl text-brown-80 dark:text-brown-20">
             Create Account.
           </CardTitle>
           <CardDescription className="text-lg">

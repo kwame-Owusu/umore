@@ -6,7 +6,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Smile, Frown, Meh, Zap, Angry } from "lucide-react";
 import { useNavigate } from "react-router";
-import { moodAPI, quotesAPI } from "../lib/api";
+import { moodAPI, quotesAPI, authAPI } from "../lib/api";
 import type { MoodDTO, MoodType } from "../types/mood";
 import ZenQuote from "../components/ZenQuote";
 
@@ -26,32 +26,37 @@ const moods: {
 }[] = [
   {
     label: "Happy",
-    icon: <Smile className="size-5" />,
-    color: "bg-green-20",
+    icon: <Smile className="size-6" />,
+    color:
+      "bg-green-20 dark:bg-green-50 hover:bg-green-30 dark:hover:bg-green-70",
     type: "happy",
   },
   {
     label: "Sad",
-    icon: <Frown className="size-5" />,
-    color: "bg-purple-20",
+    icon: <Frown className="size-6" />,
+    color:
+      "bg-purple-20 dark:bg-purple-50 hover:bg-purple-30 dark:hover:bg-purple-70",
     type: "sad",
   },
   {
     label: "Angry",
-    icon: <Angry className="size-5" />,
-    color: "bg-orange-20",
+    icon: <Angry className="size-6" />,
+    color:
+      "bg-orange-20 dark:bg-orange-50 hover:bg-orange-30 dark:hover:bg-orange-70",
     type: "angry",
   },
   {
     label: "Neutral",
-    icon: <Meh className="size-5" />,
-    color: "bg-yellow-10",
+    icon: <Meh className="size-6" />,
+    color:
+      "bg-yellow-20 dark:bg-yellow-50 hover:bg-yellow-30 dark:hover:bg-yellow-70",
     type: "neutral",
   },
   {
     label: "Excited",
-    icon: <Zap className="size-5" />,
-    color: "bg-orange-10",
+    icon: <Zap className="size-6" />,
+    color:
+      "bg-orange-20 dark:bg-orange-50 hover:bg-orange-30 dark:hover:bg-orange-70",
     type: "excited",
   },
 ];
@@ -64,6 +69,7 @@ function Dashboard() {
   const [quote, setQuote] = useState<{ quote: string; author: string } | null>(
     null
   );
+  const [username, setUsername] = useState<string>("");
   const [selectedMood, setSelectedMood] = useState<string>("all");
   const [dateFrom, setDateFrom] = useState<string>("");
   const [dateTo, setDateTo] = useState<string>("");
@@ -71,7 +77,8 @@ function Dashboard() {
   const fetchMoods = async () => {
     try {
       const response = await moodAPI.getAll();
-      setRecentEntries(response.data);
+      const moodsData = Array.isArray(response.data) ? response.data : [];
+      setRecentEntries(moodsData);
 
       // Calculate weekly count
       const now = new Date();
@@ -103,6 +110,18 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await authAPI.getUser();
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
     const fetchQuote = async () => {
       try {
         const response = await quotesAPI.getDailyQuote();
@@ -131,7 +150,8 @@ function Dashboard() {
         {/* Header */}
         <section className="text-center">
           <h1 className="text-3xl font-semibold tracking-tight">
-            Welcome Back 👋
+            Welcome Back
+            {username ? `, ${username}` : ""} 👋
           </h1>
           <p className="text-muted-foreground mt-2">
             Here’s a quick look at your recent moods and insights.
@@ -222,7 +242,9 @@ function Dashboard() {
                   key={entry._id}
                   onClick={() => navigate(`/mood/${entry._id}`)}
                   className="hover:shadow-md transition-all cursor-pointer animate-fade-in"
-                  aria-label={`View mood entry for ${moodLabels[entry.mood]} on ${new Date(entry.date).toLocaleDateString()}`}
+                  aria-label={`View mood entry for ${
+                    moodLabels[entry.mood]
+                  } on ${new Date(entry.date).toLocaleDateString()}`}
                 >
                   <CardContent className="flex justify-between items-center p-4">
                     <div>

@@ -18,10 +18,6 @@ const getAllMoods = async (req: Request, res: Response) => {
       mood: mood as string,
     });
 
-    if (!moods.length) {
-      return res.status(204).json([]);
-    }
-
     res.status(200).json(moods);
   } catch (err) {
     console.error(err);

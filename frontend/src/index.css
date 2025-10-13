@@ -148,6 +148,43 @@
   --radius-sm: 0.25rem;
 }
 
+.dark {
+  /* Warm dark background instead of cold gray */
+  --color-background: var(--color-brown-100);
+  --color-foreground: var(--color-brown-10);
+
+  /* Cards should be slightly lighter brown, not gray */
+  --color-card: var(--color-brown-90);
+  --color-card-foreground: var(--color-brown-10);
+
+  /* Keep green as primary for consistency */
+  --color-primary: var(--color-green-50);
+  --color-primary-foreground: var(--color-brown-100);
+
+  /* Secondary uses warm tones */
+  --color-secondary: var(--color-brown-60);
+  --color-secondary-foreground: var(--color-brown-10);
+
+  /* Muted elements stay warm */
+  --color-muted: var(--color-brown-80);
+  --color-muted-foreground: var(--color-brown-40);
+
+  /* Accent maintains the green theme */
+  --color-accent: var(--color-green-80);
+  --color-accent-foreground: var(--color-green-20);
+
+  /* Destructive stays consistent */
+  --color-destructive: var(--color-orange-50);
+  --color-destructive-foreground: var(--color-brown-100);
+
+  /* Borders and inputs use subtle brown tones */
+  --color-border: var(--color-brown-70);
+  --color-input: var(--color-brown-80);
+
+  /* Ring effect uses green for consistency */
+  --color-ring: var(--color-green-50);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
