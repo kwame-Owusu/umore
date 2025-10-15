@@ -29,6 +29,8 @@ Umore means 'mood' or 'state of being' in italian, which is one the languages I 
 
 ## Demo
 
+https://github.com/user-attachments/assets/7691104a-4acd-4103-a3d2-c7818bf28f79
+
 ## Installation & Setup
 
 Below is a generic setup guide. Adapt paths, configuration, and tooling depending on your environment.
