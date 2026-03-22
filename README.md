@@ -2,8 +2,7 @@
 
 **Umore** is a mood-tracking application built to help users log their emotional states over time, spot trends, and gain insights into their mental well-being. It offers a clean UI for recording moods, viewing past entries, and visualizing changes over time.
 
-Umore means 'mood' or 'state of being' in italian, which is one the languages I speak.
-
+Umore means 'mood' or 'state of being' in italian.
 ---
 
 ## Features
